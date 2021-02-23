@@ -1,5 +1,6 @@
 import cors from 'cors';
 import helmet from 'helmet';
+import './database';
 import routes from './routes';
 
 const app = express();
