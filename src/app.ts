@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import cors from 'cors';
 import helmet from 'helmet';
 import './database';
