@@ -13,7 +13,7 @@ class UsersController {
       email,
     });
     if (userAlreadyExists) {
-      throw badRequest('User already exists!', { code: 140 });
+      throw badRequest('User already exists', { code: 140 });
     }
 
     const user = usersRepository.create({ name, email });

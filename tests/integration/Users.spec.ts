@@ -51,7 +51,7 @@ describe('Users', () => {
       code: 140,
       docs: process.env.DOCS_URL,
       error: 'Bad Request',
-      message: 'User already exists!',
+      message: 'User already exists',
       statusCode: 400,
     });
   });
