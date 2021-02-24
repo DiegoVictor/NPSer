@@ -1,0 +1,22 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PORT: '3333'
+      DOCS_URL: 'https://github.com/DiegoVictor/npser#errors-reference'
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - uses: actions/checkout@v2
+      - name: Run coverage
+        run: |
+          npm install
+          npm run test
+      - uses: codecov/codecov-action@v1
+        with:
+          directory: ./tests/coverage/
