@@ -5,7 +5,7 @@
   "scripts": {
     "dev:server": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node-dev node_modules/typeorm/cli.js",
-    "pretest": "rm ./src/database/database.test.sqlite",
+    "pretest": "rm -f ./src/database/database.test.sqlite",
     "test": "jest --runInBand"
   },
   "dependencies": {
