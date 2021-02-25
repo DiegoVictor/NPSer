@@ -54,7 +54,7 @@ class SendMailController {
       await surveysUsersRepository.save(surveyUser);
     }
 
-    return response.status(204);
+    return response.sendStatus(204);
   }
 }
 
