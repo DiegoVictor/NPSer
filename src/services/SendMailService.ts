@@ -1,23 +1,26 @@
 import nodemailer, { Transporter } from 'nodemailer';
 import handlebars from 'handlebars';
 import fs from 'fs';
+import Mail from 'nodemailer/lib/mailer';
 
 class SendMailService {
-  private client: Transporter;
+  private client: Promise<Transporter> | Mail;
 
   constructor() {
-    nodemailer.createTestAccount().then((account) => {
-      const transporter = nodemailer.createTransport({
-        host: account.smtp.host,
-        port: account.smtp.port,
-        secure: account.smtp.secure,
-        auth: {
-          user: account.user,
-          pass: account.pass,
-        },
-      });
+    this.client = new Promise((resolve) => {
+      nodemailer.createTestAccount().then((account) => {
+        const transporter = nodemailer.createTransport({
+          host: account.smtp.host,
+          port: account.smtp.port,
+          secure: account.smtp.secure,
+          auth: {
+            user: account.user,
+            pass: account.pass,
+          },
+        });
 
-      this.client = transporter;
+        resolve(transporter);
+      });
     });
   }
 
@@ -27,6 +30,8 @@ class SendMailService {
     const templateBuilder = handlebars.compile(template);
     const html = templateBuilder(variables);
 
+    this.client = await this.client;
+
     const message = await this.client.sendMail({
       to,
       subject,
@@ -34,10 +39,8 @@ class SendMailService {
       from: 'NPS <noreply@npser.com>',
     });
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Message sent %s', message.messageId);
-      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(message));
-    }
+    console.log('Message sent %s', message.messageId);
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(message));
   }
 }
 
