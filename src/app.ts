@@ -7,8 +7,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { isBoom } from '@hapi/boom';
 
-import './database';
+import createConnection from './database';
 import routes from './routes';
+
+createConnection();
 
 const app = express();
 
