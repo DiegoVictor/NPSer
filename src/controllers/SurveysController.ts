@@ -12,7 +12,7 @@ class SurveysController {
     return response.json(surveys);
   }
 
-  async create(request: Request, response: Response): Promise<Response> {
+  async store(request: Request, response: Response): Promise<Response> {
     const { title, description } = request.body;
 
     const surveysRepository = getCustomRepository(SurveysRepository);
