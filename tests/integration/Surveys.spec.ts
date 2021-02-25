@@ -19,6 +19,11 @@ describe('Surveys', () => {
     await connection.runMigrations();
   });
 
+  beforeEach(async () => {
+    const surveysRepository = getRepository(Survey);
+    await surveysRepository.clear();
+  });
+
   it('should be able to get surveys', async () => {
     const surveys = await factory.attrsMany<SurveyType>('Survey', 3);
 

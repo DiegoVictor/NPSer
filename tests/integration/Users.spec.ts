@@ -19,6 +19,11 @@ describe('Users', () => {
     await connection.runMigrations();
   });
 
+  beforeEach(async () => {
+    const usersRepository = getRepository(User);
+    await usersRepository.clear();
+  });
+
   it('should be able to create a new user', async () => {
     const user = await factory.attrs<UserType>('User');
 
