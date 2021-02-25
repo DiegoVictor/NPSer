@@ -56,6 +56,7 @@ In this file you may configure app's port and a url to documentation (this will 
 
 |key|description|default
 |---|---|---
+|URL_MAIL|Url to send the NPS answer|`http://localhost:3333/answers`
 |PORT|Port number where the app will run.|`3333`
 |DOCS_URL|An url to docs where users can find more information about the app's internal code errors.|`https://github.com/DiegoVictor/npser#errors-reference`
 
@@ -88,6 +89,8 @@ Instead of only throw a simple message and HTTP Status Code this API return frie
 |code|message|description
 |---|---|---
 |140|User already exists|The provided email is already registered by another user.
+|240|User does not exists|The provided email was not found.
+|241|Survey does not exists|The provided survey id does not references an existing registry in the database.
 
 ## Versioning
 A simple versioning was made. Just remember to set after the `host` the `/v1/` string to your requests.
@@ -101,6 +104,7 @@ GET http://localhost:3333/v1/surveys
 |`/users`|POST|Body with user `name` and `email`.|Create a new user
 |`/surveys`|GET| - |Lists surveys.
 |`/surveys`|POST|Body with user `title` and `description`.|Create a new survey
+|`/send_mail`|POST|Body with user `email` and a `survey_id`.|Send the NPS to provided user
 
 ### Requests
 * `POST /users`
@@ -110,6 +114,16 @@ Request body:
 {
   "name": "John Doe",
   "email": "johndoe@example.com"
+}
+```
+
+* `POST /send_mail`
+
+Request body:
+```json
+{
+  "email": "johndoe@example.com",
+  "survey_id": "388017f8-dfdf-4681-9112-e1bb0de009ec"
 }
 ```
 
