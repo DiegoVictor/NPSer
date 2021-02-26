@@ -6,6 +6,7 @@ import SendMailController from './controllers/SendMailController';
 import NpsController from './controllers/NpsController';
 import userValidator from './validators/userValidator';
 import surveyValidator from './validators/surveyValidator';
+import sendEmailValidator from './validators/sendEmailValidator';
 import npsValidator from './validators/npsValidator';
 
 const routes = Router();
