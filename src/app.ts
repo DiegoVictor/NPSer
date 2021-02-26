@@ -9,6 +9,7 @@ import { isBoom } from '@hapi/boom';
 
 import createConnection from './database';
 import routes from './routes';
+import { errors } from 'celebrate';
 
 createConnection();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 
 app.use('/v1', routes);
 
+app.use(errors());
 app.use(
   async (err: Error, request: Request, res: Response, next: NextFunction) => {
     if (isBoom(err)) {
