@@ -28,32 +28,42 @@ class SendMailController {
       throw badRequest('Survey does not exists', { code: 241 });
     }
 
-    const sendMail = new SendMailService();
+    const surveyUserAlreadyExists = await surveysUsersRepository.findOne({
+      where: { user_id: user.id, value: null },
+    });
+
     const variables = {
       name: user.name,
       title: survey.title,
+      id: null,
       description: survey.description,
-      user_id: user.id,
       link: `${process.env.URL_MAIL}`,
     };
     const npsPath = path.resolve(__dirname, '..', 'views', 'emails', 'nps.hbs');
 
-    const surveyUser = await surveysUsersRepository.findOne({
-      where: [{ user_id: user.id }, { value: null }],
-    });
-    if (surveyUser) {
-      await sendMail.execute(email, survey.title, variables, npsPath);
-    } else {
+    const sendMail = new SendMailService();
+    if (surveyUserAlreadyExists) {
+      variables.id = surveyUserAlreadyExists.id;
       await sendMail.execute(email, survey.title, variables, npsPath);
 
-      const surveyUser = surveysUsersRepository.create({
-        user_id: user.id,
-        survey_id,
+      return response.json({
+        id: surveyUserAlreadyExists.id,
       });
-      await surveysUsersRepository.save(surveyUser);
     }
 
-    return response.sendStatus(204);
+    const surveyUser = surveysUsersRepository.create({
+      user_id: user.id,
+      survey_id,
+    });
+    await surveysUsersRepository.save(surveyUser);
+
+    variables.id = surveyUser.id;
+
+    await sendMail.execute(email, survey.title, variables, npsPath);
+
+    return response.status(202).json({
+      id: surveyUser.id,
+    });
   }
 }
 
