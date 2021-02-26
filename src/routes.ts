@@ -16,6 +16,6 @@ routes.post('/users', userValidator, usersController.store);
 routes.get('/surveys', surveysController.index);
 routes.post('/surveys', surveyValidator, surveysController.store);
 
-routes.post('/send_mail', sendMailController.store);
+routes.post('/send_mail', sendEmailValidator, sendMailController.store);
 
 export default routes;
