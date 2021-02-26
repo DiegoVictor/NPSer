@@ -14,7 +14,7 @@ const sendMailController = new SendMailController();
 routes.post('/users', userValidator, usersController.store);
 
 routes.get('/surveys', surveysController.index);
-routes.post('/surveys', surveysController.store);
+routes.post('/surveys', surveyValidator, surveysController.store);
 
 routes.post('/send_mail', sendMailController.store);
 
