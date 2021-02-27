@@ -91,6 +91,8 @@ describe('SendEmail', () => {
     const savedSurvey = surveysRepository.create(survey);
     await surveysRepository.save(savedSurvey);
 
+    jest.spyOn(console, 'log').mockImplementation(() => {});
+
     await request(app).post('/v1/send_mail').expect(201).send({
       email: savedUser.email,
       survey_id: savedSurvey.id,
