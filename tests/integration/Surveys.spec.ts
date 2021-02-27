@@ -24,6 +24,12 @@ describe('Surveys', () => {
     await surveysRepository.clear();
   });
 
+  afterAll(async () => {
+    const connection = await createConnection();
+    await connection.dropDatabase();
+    await connection.close();
+  });
+
   it('should be able to get surveys', async () => {
     const surveys = await factory.attrsMany<SurveyType>('Survey', 3);
 

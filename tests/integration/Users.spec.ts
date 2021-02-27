@@ -24,6 +24,12 @@ describe('Users', () => {
     await usersRepository.clear();
   });
 
+  afterAll(async () => {
+    const connection = await createConnection();
+    await connection.dropDatabase();
+    await connection.close();
+  });
+
   it('should be able to create a new user', async () => {
     const user = await factory.attrs<UserType>('User');
 
