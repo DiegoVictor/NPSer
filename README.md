@@ -92,6 +92,7 @@ Instead of only throw a simple message and HTTP Status Code this API return frie
 |140|User already exists|The provided email is already registered by another user.
 |240|User does not exists|The provided email was not found.
 |241|Survey does not exists|The provided survey id does not references an existing registry in the database.
+|242|SurveyUser not found|A survey was not sent to this user.
 
 ## Versioning
 A simple versioning was made. Just remember to set after the `host` the `/v1/` string to your requests.
@@ -106,6 +107,9 @@ GET http://localhost:3333/v1/surveys
 |`/surveys`|GET| - |Lists surveys.
 |`/surveys`|POST|Body with user `title` and `description`.|Create a new survey
 |`/send_mail`|POST|Body with user `email` and a `survey_id`.|Send the NPS to provided user
+|`/answers`|GET| - |List survey answers
+|`/answers/:value`|GET|survey `value` url parameter and survey user `id` query parameter.|Set user's avaliation to one survey
+|`/nps/:survey_id`|GET|`survey_id` url parameter.|Show survey NPS
 
 ### Requests
 * `POST /users`
@@ -115,6 +119,16 @@ Request body:
 {
   "name": "John Doe",
   "email": "johndoe@example.com"
+}
+```
+
+* `POST /survey`
+
+Request body:
+```json
+{
+  "title": "Internal Directives Engineer",
+  "description": "Cupiditate modi occaecati aut?"
 }
 ```
 
