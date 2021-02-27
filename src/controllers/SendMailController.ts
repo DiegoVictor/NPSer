@@ -61,7 +61,7 @@ class SendMailController {
 
     await sendMail.execute(email, survey.title, variables, npsPath);
 
-    return response.status(202).json({
+    return response.status(201).json({
       id: surveyUser.id,
     });
   }
