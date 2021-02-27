@@ -19,4 +19,14 @@ factory.define(
   }
 );
 
+factory.define(
+  'SurveyUser',
+  {},
+  {
+    user_id: faker.random.uuid,
+    survey_id: faker.random.uuid,
+    value: () => faker.random.number({ min: 1, max: 10 }),
+  }
+);
+
 export default factory;
