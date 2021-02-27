@@ -11,7 +11,7 @@ import sendEmailValidator from './validators/sendEmailValidator';
 import npsValidator from './validators/npsValidator';
 import answerValidator from './validators/answerValidator';
 
-const routes = Router();
+const app = Router();
 
 const usersController = new UsersController();
 const surveysController = new SurveysController();
@@ -19,16 +19,16 @@ const sendMailController = new SendMailController();
 const answersController = new AnswersController();
 const npsController = new NpsController();
 
-routes.post('/users', userValidator, usersController.store);
+app.post('/users', userValidator, usersController.store);
 
-routes.get('/surveys', surveysController.index);
-routes.post('/surveys', surveyValidator, surveysController.store);
+app.get('/surveys', surveysController.index);
+app.post('/surveys', surveyValidator, surveysController.store);
 
-routes.post('/send_mail', sendEmailValidator, sendMailController.store);
+app.post('/send_mail', sendEmailValidator, sendMailController.store);
 
-routes.get('/answers', answersController.index);
-routes.get('/answers/:value', answerValidator, answersController.store);
+app.get('/answers', answersController.index);
+app.get('/answers/:value', answerValidator, answersController.store);
 
-routes.get('/nps/:survey_id', npsValidator, npsController.show);
+app.get('/nps/:survey_id', npsValidator, npsController.show);
 
-export default routes;
+export default app;
