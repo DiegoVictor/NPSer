@@ -21,7 +21,7 @@ class AnswersController {
     const surveysUsersRepository = getCustomRepository(SurveysUsersRepository);
     const surveyUser = await surveysUsersRepository.findOne({ id: String(id) });
     if (!surveyUser) {
-      throw notFound('SurveyUser not found', { code: 242 });
+      throw notFound('Answer not found', { code: 242 });
     }
 
     surveyUser.value = Number(value);

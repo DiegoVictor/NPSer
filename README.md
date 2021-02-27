@@ -92,7 +92,7 @@ Instead of only throw a simple message and HTTP Status Code this API return frie
 |140|User already exists|The provided email is already registered by another user.
 |240|User does not exists|The provided email was not found.
 |241|Survey does not exists|The provided survey id does not references an existing registry in the database.
-|242|SurveyUser not found|A survey was not sent to this user.
+|242|Answer not found|A survey was not sent to this user.
 
 ## Versioning
 A simple versioning was made. Just remember to set after the `host` the `/v1/` string to your requests.

@@ -163,7 +163,7 @@ describe('Users', () => {
       statusCode: 404,
       code: 242,
       error: 'Not Found',
-      message: 'SurveyUser not found',
+      message: 'Answer not found',
       docs: process.env.DOCS_URL,
     });
   });
