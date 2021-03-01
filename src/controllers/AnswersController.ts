@@ -16,6 +16,7 @@ class AnswersController {
       relations: ['user', 'survey'],
       take: limit,
       skip: (Number(page) - 1) * limit,
+      order: { id: 'ASC' },
     });
 
     const count = await surveysUsersRepository.count();

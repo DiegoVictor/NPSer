@@ -14,6 +14,7 @@ class SurveysController {
     const surveys = await surveysRepository.find({
       take: limit,
       skip: (Number(page) - 1) * limit,
+      order: { id: 'ASC' },
     });
 
     const count = await surveysRepository.count();
