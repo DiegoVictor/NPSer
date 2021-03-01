@@ -6,10 +6,11 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { isBoom } from '@hapi/boom';
+import { errors } from 'celebrate';
 
 import createConnection from './database';
 import routes from './routes';
-import { errors } from 'celebrate';
+import RouteAliases from './middlewares/RouteAliases';
 
 createConnection();
 
@@ -18,6 +19,7 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
+app.use(RouteAliases);
 
 app.use('/v1', routes);
 
