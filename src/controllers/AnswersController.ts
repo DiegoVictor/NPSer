@@ -11,6 +11,9 @@ class AnswersController {
       relations: ['user', 'survey'],
     });
 
+    const count = await surveysUsersRepository.count();
+    response.header('X-Total-Count', count.toString());
+
     return response.json(surveysUsers);
   }
 
