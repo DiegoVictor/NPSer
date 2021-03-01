@@ -7,6 +7,7 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
 import Survey from './Survey';
 import User from './User';
 

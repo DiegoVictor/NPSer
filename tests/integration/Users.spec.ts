@@ -1,9 +1,9 @@
 import request from 'supertest';
+import { getRepository } from 'typeorm';
 
 import app from '../../src/app';
 import factory from '../utils/factory';
 import createConnection from '../../src/database/index';
-import { getRepository } from 'typeorm';
 import User from '../../src/models/User';
 
 interface UserType {

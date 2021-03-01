@@ -1,6 +1,5 @@
 import request from 'supertest';
 import { getRepository } from 'typeorm';
-import faker from 'faker';
 
 import app from '../../src/app';
 import factory from '../utils/factory';
