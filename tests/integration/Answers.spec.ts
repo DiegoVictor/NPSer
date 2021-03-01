@@ -54,7 +54,7 @@ describe('Users', () => {
     await connection.close();
   });
 
-  it('should be able to answer a survey', async () => {
+  it('should be able to get answers list', async () => {
     const usersRepository = getRepository(User);
     const surveysUsersRepository = getRepository(SurveyUser);
     const surveysRepository = getRepository(Survey);
@@ -100,7 +100,7 @@ describe('Users', () => {
 
     const response = await request(app).get(`/v1/answers`).expect(200);
 
-    surveysUsers.forEach(({ survey, surveyUser, user }) => {
+    surveysUsers.slice(-10).forEach(({ survey, surveyUser, user }) => {
       expect(response.body).toContainEqual({
         ...surveyUser,
         created_at: surveyUser.created_at.toISOString(),
@@ -114,6 +114,78 @@ describe('Users', () => {
         },
       });
     });
+  });
+
+  it('should be able to get the second page of answers', async () => {
+    const usersRepository = getRepository(User);
+    const surveysUsersRepository = getRepository(SurveyUser);
+    const surveysRepository = getRepository(Survey);
+
+    const users = await factory.attrsMany<UserType>('User', 20);
+    const promises: Promise<{
+      user: UserType;
+      survey: SurveyType;
+      surveyUser: SurveyUserType;
+    }>[] = users.map((user) => {
+      return new Promise((resolve) => {
+        const savedUser = usersRepository.create(user);
+
+        usersRepository.save(savedUser).then(() => {
+          factory.attrs<SurveyType>('Survey').then((survey) => {
+            const savedSurvey = surveysRepository.create(survey);
+
+            surveysRepository.save(savedSurvey).then(() => {
+              factory
+                .attrs<SurveyUserType>('SurveyUser', {
+                  user_id: savedUser.id,
+                  survey_id: savedSurvey.id,
+                })
+                .then((surveyUser) => {
+                  const savedSurveyUser = surveysUsersRepository.create(
+                    surveyUser
+                  );
+
+                  surveysUsersRepository.save(savedSurveyUser).then(() => {
+                    resolve({
+                      user: savedUser,
+                      survey: savedSurvey,
+                      surveyUser: savedSurveyUser,
+                    });
+                  });
+                });
+            });
+          });
+        });
+      });
+    });
+    const surveysUsers = await Promise.all(promises);
+
+    const response = await request(app).get(`/v1/answers?page=2`).expect(200);
+
+    surveysUsers
+      .sort((a, b) => {
+        if (a.surveyUser.id > b.surveyUser.id) {
+          return 1;
+        } else if (a.surveyUser.id < b.surveyUser.id) {
+          return -1;
+        }
+        return 0;
+      })
+      .slice(-10)
+      .forEach(({ survey, surveyUser, user }) => {
+        expect(response.body).toContainEqual({
+          ...surveyUser,
+          created_at: surveyUser.created_at.toISOString(),
+          user: {
+            ...user,
+            created_at: user.created_at.toISOString(),
+          },
+          survey: {
+            ...survey,
+            created_at: survey.created_at.toISOString(),
+          },
+        });
+      });
   });
 
   it('should be able to answer a survey', async () => {
