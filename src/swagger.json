@@ -1,0 +1,18 @@
+{
+  "openapi":"3.0.2",
+  "info": {
+    "title":"NPSer",
+    "version":"1.0",
+    "license": {
+      "name": "MIT",
+      "url": "https://raw.githubusercontent.com/DiegoVictor/NPSer/master/LICENSE"
+    }
+  },
+  "servers": [
+    {
+      "url":"http://localhost:3333/v1"
+    }
+  ],
+  "paths": {
+  }
+}
