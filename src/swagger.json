@@ -32,6 +32,25 @@
             "type": "string"
           }
         }
+      },
+      "Error": {
+        "properties": {
+          "statusCode": {
+            "type": "integer"
+          },
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "docs": {
+            "type": "string"
+          }
+        }
       }
     }
   }
