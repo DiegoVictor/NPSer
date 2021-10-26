@@ -99,6 +99,22 @@
           }
         }
       },
+      "Survey": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
       "Error": {
         "properties": {
           "statusCode": {
