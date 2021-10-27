@@ -132,6 +132,53 @@
           }
         }
       },
+      "post": {
+        "tags": ["Surveys"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Survey",
+                "required": [
+                  "title",
+                  "description"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "title": "Internal Division Consultant",
+                "description": "Saepe recusandae vitae velit asperiores vel consequuntur ratione quam."
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create a new survey",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Survey"
+                },
+                "example": {
+                  "id": "24d47172-8ddb-4281-af19-e0d5bda7c76e",
+                  "title": "Internal Division Consultant",
+                  "description": "Saepe recusandae vitae velit asperiores vel consequuntur ratione quam.",
+                  "created_at": "2021-08-29T15:29:03.000Z"
+                }
+              }
+            }
+          }
+        }
+      }
     },
   },
   "components": {
