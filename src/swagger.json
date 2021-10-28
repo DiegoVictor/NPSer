@@ -180,6 +180,87 @@
         }
       }
     },
+    "/send_mail": {
+      "post": {
+        "tags": ["NPS"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "NPS",
+                "required": [
+                  "survey_id",
+                  "email"
+                ],
+                "properties": {
+                  "survey_id": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "email": "johndoe@example.com.br",
+                "survey_id": "24d47172-8ddb-4281-af19-e0d5bda7c76e"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Send the NPS to provided user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "id": "c71cac0d-cb96-4c0d-884b-a66abd2b1e11"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User or survey does not exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "User does not exists": {
+                    "value": {
+                      "statusCode": 400,
+                      "error": "Bad Request",
+                      "message": "User does not exists",
+                      "code": 240,
+                      "docs": "https://github.com/DiegoVictor/npser#errors-reference"
+                    }
+                  },
+                  "Survey does not exists": {
+                    "value": {
+                      "statusCode": 400,
+                      "error": "Bad Request",
+                      "message": "Survey does not exists",
+                      "code": 241,
+                      "docs": "https://github.com/DiegoVictor/npser#errors-reference"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
   },
   "components": {
     "schemas": {
