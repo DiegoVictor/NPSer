@@ -296,6 +296,31 @@
           }
         }
       },
+      "Answer": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "survey_id": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "survey": {
+            "$ref": "#/components/schemas/Survey"
+          }
+        }
+      },
       "Error": {
         "properties": {
           "statusCode": {
