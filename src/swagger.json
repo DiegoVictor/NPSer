@@ -327,6 +327,53 @@
         }
       }
     },
+    "/answers/{value}": {
+      "get": {
+        "tags": ["Answers"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "value",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 8
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "c71cac0d-cb96-4c0d-884b-a66abd2b1e11"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Set user's avaliation to one survey"
+          },
+          "404": {
+            "description": "Answer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "error": "Not Found",
+                  "message": "Answer not found",
+                  "code": 242,
+                  "docs": "https://github.com/DiegoVictor/npser#errors-reference"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
   },
   "components": {
     "schemas": {
