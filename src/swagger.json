@@ -374,6 +374,41 @@
         }
       }
     },
+    "/nps/{survey_id}": {
+      "get": {
+        "tags": ["NPS"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "survey_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "24d47172-8ddb-4281-af19-e0d5bda7c76e"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Show survey NPS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NPS"
+                },
+                "example": {
+                  "promoters": 2,
+                  "detractors": 1,
+                  "passive": 0,
+                  "total": 3,
+                  "nps": 33.33
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "components": {
     "schemas": {
