@@ -434,6 +434,25 @@
           }
         }
       },
+      "NPS": {
+        "properties": {
+          "promoters": {
+            "type": "integer"
+          },
+          "detractors": {
+            "type": "integer"
+          },
+          "passive": {
+            "type": "integer"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "nps": {
+            "type": "number"
+          }
+        }
+      },
       "Error": {
         "properties": {
           "statusCode": {
