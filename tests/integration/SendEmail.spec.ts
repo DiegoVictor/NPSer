@@ -28,7 +28,7 @@ interface SurveyUserType {
 
 const transporter = {
   sendMail: jest.fn(() => ({
-    messageId: faker.random.uuid(),
+    messageId: faker.datatype.uuid(),
   })),
 };
 jest.mock('nodemailer', () => {
@@ -169,7 +169,7 @@ describe('SendEmail', () => {
 
   it('should not be able to send to user that not exists a survey', async () => {
     const email = faker.internet.email();
-    const survey_id = faker.random.uuid();
+    const survey_id = faker.datatype.uuid();
 
     const response = await request(app).post('/v1/send_mail').expect(400).send({
       email,
@@ -198,7 +198,7 @@ describe('SendEmail', () => {
     const savedUser = usersRepository.create(user);
     await usersRepository.save(savedUser);
 
-    const survey_id = faker.random.uuid();
+    const survey_id = faker.datatype.uuid();
 
     const response = await request(app).post('/v1/send_mail').expect(400).send({
       email: user.email,

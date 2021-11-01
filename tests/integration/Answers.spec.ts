@@ -209,7 +209,7 @@ describe('Users', () => {
     const savedSurveyUser = surveysUsersRepository.create(surveyUser);
     await surveysUsersRepository.save(savedSurveyUser);
 
-    const value = faker.random.number({ min: 1, max: 10 });
+    const value = faker.datatype.number({ min: 1, max: 10 });
     await request(app)
       .get(`/v1/answers/${value}?id=${savedSurveyUser.id}`)
       .expect(204)
@@ -223,8 +223,8 @@ describe('Users', () => {
   });
 
   it('should not be able to answer a survey that not exists', async () => {
-    const value = faker.random.number({ min: 1, max: 10 });
-    const id = faker.random.uuid();
+    const value = faker.datatype.number({ min: 1, max: 10 });
+    const id = faker.datatype.uuid();
 
     const response = await request(app)
       .get(`/v1/answers/${value}?id=${id}`)

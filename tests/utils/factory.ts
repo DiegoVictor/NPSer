@@ -23,9 +23,9 @@ factory.define(
   'SurveyUser',
   {},
   {
-    user_id: faker.random.uuid,
-    survey_id: faker.random.uuid,
-    value: () => faker.random.number({ min: 1, max: 10 }),
+    user_id: faker.datatype.uuid,
+    survey_id: faker.datatype.uuid,
+    value: () => faker.datatype.number({ min: 1, max: 10 }),
   }
 );
 
