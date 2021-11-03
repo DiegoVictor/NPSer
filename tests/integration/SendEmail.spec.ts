@@ -142,7 +142,7 @@ describe('SendEmail', () => {
     const savedSurveyUser = surveysUsersRepository.create(surveyUser);
     await surveysUsersRepository.save(savedSurveyUser);
 
-    await request(app).post('/v1/send_mail').expect(200).send({
+    await request(app).post('/v1/send_mail').expect(201).send({
       email: savedUser.email,
       survey_id: savedSurvey.id,
     });
