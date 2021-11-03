@@ -64,7 +64,7 @@ describe('Users', () => {
     const surveysUsersRepository = getRepository(SurveyUser);
 
     const users = await factory.attrsMany<UserType>('User', 10);
-    const promises: Promise<SurveyUserType>[] = users.map((user) => {
+    const promises: Promise<SurveyUserType>[] = users.map((user, index) => {
       return new Promise((resolve) => {
         const savedUser = usersRepository.create(user);
 
@@ -75,6 +75,14 @@ describe('Users', () => {
               survey_id: savedSurvey.id,
             })
             .then((surveyUser) => {
+              surveyUser.value = Math.floor(Math.random()) + 7;
+              if (index > 1) {
+                surveyUser.value = Math.floor(Math.random() * 6);
+                if (index % 2 === 0) {
+                  surveyUser.value = Math.floor(Math.random()) + 9;
+                }
+              }
+
               const savedSurveyUser = surveysUsersRepository.create(surveyUser);
               surveysUsersRepository.save(savedSurveyUser).then(() => {
                 resolve(savedSurveyUser);
