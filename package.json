@@ -28,6 +28,7 @@
     "@types/factory-girl": "^5.0.5",
     "@types/faker": "^5.1.7",
     "@types/jest": "^26.0.20",
+    "@types/node": "^16.11.4",
     "@types/nodemailer": "^6.4.0",
     "@types/supertest": "^2.0.10",
     "@types/swagger-ui-express": "^4.1.3",
