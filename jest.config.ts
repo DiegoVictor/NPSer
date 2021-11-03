@@ -26,7 +26,6 @@ export default {
     'src/validators/*.ts',
     'src/models/*.ts',
     'src/repositories/*.ts',
-    'src/app.ts',
   ],
 
   // The directory where Jest should output its coverage files
