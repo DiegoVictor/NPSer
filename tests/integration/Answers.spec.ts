@@ -1,5 +1,5 @@
 import request from 'supertest';
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { getRepository } from 'typeorm';
 
 import app from '../../src/app';
@@ -79,9 +79,8 @@ describe('Users', () => {
                   survey_id: savedSurvey.id,
                 })
                 .then((surveyUser) => {
-                  const savedSurveyUser = surveysUsersRepository.create(
-                    surveyUser
-                  );
+                  const savedSurveyUser =
+                    surveysUsersRepository.create(surveyUser);
 
                   surveysUsersRepository.save(savedSurveyUser).then(() => {
                     resolve({
@@ -141,9 +140,8 @@ describe('Users', () => {
                   survey_id: savedSurvey.id,
                 })
                 .then((surveyUser) => {
-                  const savedSurveyUser = surveysUsersRepository.create(
-                    surveyUser
-                  );
+                  const savedSurveyUser =
+                    surveysUsersRepository.create(surveyUser);
 
                   surveysUsersRepository.save(savedSurveyUser).then(() => {
                     resolve({

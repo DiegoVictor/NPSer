@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import factory from 'factory-girl';
 
 factory.define(
@@ -14,7 +14,7 @@ factory.define(
   'Survey',
   {},
   {
-    title: faker.name.title,
+    title: faker.lorem.words,
     description: faker.lorem.paragraph,
   }
 );
