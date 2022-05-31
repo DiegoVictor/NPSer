@@ -1,5 +1,5 @@
 # NPSer
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/DiegoVictor/npser/CI?logo=github&style=flat-square)](https://github.com/DiegoVictor/npser/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/DiegoVictor/npser/Pipeline?logo=github&style=flat-square)](https://github.com/DiegoVictor/npser/actions)
 [![typescript](https://img.shields.io/badge/typescript-4.1.5-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![eslint](https://img.shields.io/badge/eslint-7.20.0-4b32c3?style=flat-square&logo=eslint)](https://eslint.org/)
 [![airbnb-style](https://flat.badgen.net/badge/style-guide/airbnb/ff5a5f?icon=airbnb)](https://github.com/airbnb/javascript)
