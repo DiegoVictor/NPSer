@@ -5,7 +5,7 @@ factory.define(
   'User',
   {},
   {
-    name: faker.name.findName,
+    name: faker.person.firstName,
     email: faker.internet.email,
   }
 );
@@ -23,9 +23,9 @@ factory.define(
   'SurveyUser',
   {},
   {
-    user_id: faker.datatype.uuid,
-    survey_id: faker.datatype.uuid,
-    value: () => faker.datatype.number({ min: 1, max: 10 }),
+    user_id: faker.string.uuid,
+    survey_id: faker.string.uuid,
+    value: () => faker.number.int({ min: 1, max: 10 }),
   }
 );
 
