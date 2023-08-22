@@ -1,0 +1,15 @@
+version: 1.0.{build}
+image: Ubuntu
+environment:
+  PORT: 3333
+  DOCS_URL: https://github.com/DiegoVictor/npser#errors-reference
+install:
+  - sh: npm ci
+test_script:
+  - sh: npm run test
+on_success:
+  - sh: |
+      curl -Os https://uploader.codecov.io/latest/linux/codecov
+
+      chmod +x codecov
+      ./codecov
