@@ -1,9 +1,9 @@
 # NPSer
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/DiegoVictor/npser/config.yml?logo=github&style=flat-square)](https://github.com/DiegoVictor/npser/actions)
-[![typescript](https://img.shields.io/badge/typescript-4.1.5-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![eslint](https://img.shields.io/badge/eslint-7.20.0-4b32c3?style=flat-square&logo=eslint)](https://eslint.org/)
+[![AppVeyor](https://img.shields.io/appveyor/build/diegovictor/npser?logo=appveyor&style=flat-square)](https://ci.appveyor.com/project/DiegoVictor/npser)
+[![typescript](https://img.shields.io/badge/typescript-5.1.6-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![eslint](https://img.shields.io/badge/eslint-8.47.0-4b32c3?style=flat-square&logo=eslint)](https://eslint.org/)
 [![airbnb-style](https://flat.badgen.net/badge/style-guide/airbnb/ff5a5f?icon=airbnb)](https://github.com/airbnb/javascript)
-[![jest](https://img.shields.io/badge/jest-26.6.3-brightgreen?style=flat-square&logo=jest)](https://jestjs.io/)
+[![jest](https://img.shields.io/badge/jest-29.6.3-brightgreen?style=flat-square&logo=jest)](https://jestjs.io/)
 [![coverage](https://img.shields.io/codecov/c/gh/DiegoVictor/npser?logo=codecov&style=flat-square)](https://codecov.io/gh/DiegoVictor/npser)
 [![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://raw.githubusercontent.com/DiegoVictor/NPSer/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)<br>
