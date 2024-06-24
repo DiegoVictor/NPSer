@@ -7,7 +7,7 @@
 [![coverage](https://img.shields.io/codecov/c/gh/DiegoVictor/npser?logo=codecov&style=flat-square)](https://codecov.io/gh/DiegoVictor/npser)
 [![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://raw.githubusercontent.com/DiegoVictor/NPSer/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)<br>
-[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=NPSer&uri=https%3A%2F%2Fraw.githubusercontent.com%2FDiegoVictor%2FNPSer%2Fmain%2FInsomnia_2023-08-25.json)
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=NPSer&uri=https%3A%2F%2Fraw.githubusercontent.com%2FDiegoVictor%2FNPSer%2Fmain%2FInsomnia_2024-06-23.json)
 
 ## Table of Contents
 * [Installing](#installing)
