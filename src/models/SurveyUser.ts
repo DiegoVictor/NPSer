@@ -8,11 +8,11 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-import Survey from './Survey';
-import User from './User';
+import { Survey } from './Survey';
+import { User } from './User';
 
 @Entity('surveys_users')
-class SurveyUser {
+export class SurveyUser {
   @PrimaryColumn()
   readonly id: string;
 
@@ -42,5 +42,3 @@ class SurveyUser {
     }
   }
 }
-
-export default SurveyUser;
