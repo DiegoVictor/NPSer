@@ -5,11 +5,7 @@ class NpsController {
   async show(request: Request, response: Response) {
     const { survey_id } = request.params;
 
-    const surveysUsersRepository = getCustomRepository(SurveysUsersRepository);
-    const answers = await surveysUsersRepository.find({
-      survey_id,
-      value: Not(IsNull()),
-    });
+    const answers = await SurveysUsersRepository.getAnswers(survey_id);
 
     const { detractors, promoters, passive } = answers.reduce(
       (prev, answer) => {
