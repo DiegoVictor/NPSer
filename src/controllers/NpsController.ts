@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
-import { getCustomRepository, IsNull, Not } from 'typeorm';
-
-import SurveysUsersRepository from '../repositories/SurveysUsersRepository';
+import { SurveysUsersRepository } from '../repositories/SurveysUsersRepository';
 
 class NpsController {
   async show(request: Request, response: Response) {
@@ -41,4 +39,4 @@ class NpsController {
   }
 }
 
-export default NpsController;
+export { NpsController };

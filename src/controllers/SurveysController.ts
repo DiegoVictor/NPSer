@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
-import { getCustomRepository } from 'typeorm';
-
 import paginationLinks from '../helpers/paginationLinks';
-import SurveysRepository from '../repositories/SurveysRepository';
+import { SurveysRepository } from '../repositories/SurveysRepository';
 
 class SurveysController {
   async index(request: Request, response: Response): Promise<Response> {
@@ -10,14 +8,13 @@ class SurveysController {
     const { page = 1 } = request.query;
     const limit = 10;
 
-    const surveysRepository = getCustomRepository(SurveysRepository);
-    const surveys = await surveysRepository.find({
+    const surveys = await SurveysRepository.find({
       take: limit,
       skip: (Number(page) - 1) * limit,
       order: { id: 'ASC' },
     });
 
-    const count = await surveysRepository.count();
+    const count = await SurveysRepository.count();
     response.header('X-Total-Count', count.toString());
 
     const pages_total = Math.ceil(count / limit);
@@ -31,13 +28,11 @@ class SurveysController {
   async store(request: Request, response: Response): Promise<Response> {
     const { title, description } = request.body;
 
-    const surveysRepository = getCustomRepository(SurveysRepository);
-
-    const survey = surveysRepository.create({ title, description });
-    await surveysRepository.save(survey);
+    const survey = SurveysRepository.create({ title, description });
+    await SurveysRepository.save(survey);
 
     return response.status(201).json(survey);
   }
 }
 
-export default SurveysController;
+export { SurveysController };

@@ -1,34 +1,34 @@
 import { badRequest } from '@hapi/boom';
 import { Request, Response } from 'express';
-import { getCustomRepository } from 'typeorm';
 import path from 'path';
-
-import SurveysRepository from '../repositories/SurveysRepository';
-import SurveysUsersRepository from '../repositories/SurveysUsersRepository';
-import UsersRepository from '../repositories/UsersRepository';
+import { SurveysRepository } from '../repositories/SurveysRepository';
+import { SurveysUsersRepository } from '../repositories/SurveysUsersRepository';
+import { UsersRepository } from '../repositories/UsersRepository';
 import SendMailService from '../services/SendMailService';
 
 class SendMailController {
   async store(request: Request, response: Response): Promise<Response> {
     const { email, survey_id } = request.body;
 
-    const usersRepository = getCustomRepository(UsersRepository);
-    const surveysUsersRepository = getCustomRepository(SurveysUsersRepository);
-    const surveysRepository = getCustomRepository(SurveysRepository);
-
-    const user = await usersRepository.findOne({ email });
+    const user = await UsersRepository.findOne({
+      where: {
+        email,
+      },
+    });
     if (!user) {
       throw badRequest('User does not exists', { code: 240 });
     }
 
-    const survey = await surveysRepository.findOne({
-      id: survey_id,
+    const survey = await SurveysRepository.findOne({
+      where: {
+        id: survey_id,
+      },
     });
     if (!survey) {
       throw badRequest('Survey does not exists', { code: 241 });
     }
 
-    const surveyUserAlreadyExists = await surveysUsersRepository.findOne({
+    const surveyUserAlreadyExists = await SurveysUsersRepository.findOne({
       where: { user_id: user.id, value: null },
     });
 
@@ -51,11 +51,11 @@ class SendMailController {
       });
     }
 
-    const surveyUser = surveysUsersRepository.create({
+    const surveyUser = SurveysUsersRepository.create({
       user_id: user.id,
       survey_id,
     });
-    await surveysUsersRepository.save(surveyUser);
+    await SurveysUsersRepository.save(surveyUser);
 
     variables.id = surveyUser.id;
 
@@ -67,4 +67,4 @@ class SendMailController {
   }
 }
 
-export default SendMailController;
+export { SendMailController };
