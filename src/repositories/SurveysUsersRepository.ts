@@ -1,8 +1,8 @@
-import { EntityRepository, Repository } from 'typeorm';
-
+import { IsNull, Not, Repository } from 'typeorm';
+import { AppDataSource } from '../database/datasource';
 import { SurveyUser } from '../models/SurveyUser';
 
-@EntityRepository(SurveyUser)
-class SurveysUsersRepository extends Repository<SurveyUser> {}
 
-export default SurveysUsersRepository;
+const SurveysUsersRepository = AppDataSource.getRepository(SurveyUser);
+
+export { SurveysUsersRepository };
