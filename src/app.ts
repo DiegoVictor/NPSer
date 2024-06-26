@@ -8,11 +8,9 @@ import helmet from 'helmet';
 import { isBoom } from '@hapi/boom';
 import { errors } from 'celebrate';
 
-import createConnection from './database';
+import './database/datasource';
 import routes from './routes';
 import RouteAliases from './middlewares/RouteAliases';
-
-createConnection();
 
 const app = express();
 
