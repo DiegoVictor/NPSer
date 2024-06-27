@@ -1,10 +1,8 @@
 import request from 'supertest';
-import { getRepository } from 'typeorm';
-
 import app from '../../src/app';
 import factory from '../utils/factory';
-import createConnection from '../../src/database/index';
-import User from '../../src/models/User';
+import { User } from '../../src/models/User';
+import { JestDatasource } from '../utils/datasource';
 
 interface UserType {
   id?: string;
@@ -14,20 +12,25 @@ interface UserType {
 }
 
 describe('Users', () => {
+  const datasource = new JestDatasource();
+
   beforeAll(async () => {
-    const connection = await createConnection();
+    const connection = await datasource.getConnection();
     await connection.runMigrations();
   });
 
   beforeEach(async () => {
-    const usersRepository = getRepository(User);
-    await usersRepository.clear();
+    const connection = await datasource.getConnection();
+
+    const usersRepository = connection.getRepository(User);
+    await usersRepository.delete({});
   });
 
   afterAll(async () => {
-    const connection = await createConnection();
+    const connection = await datasource.getConnection();
+
     await connection.dropDatabase();
-    await connection.close();
+    await connection.destroy();
   });
 
   it('should be able to create a new user', async () => {
@@ -50,7 +53,8 @@ describe('Users', () => {
   it('should not be able to create an user with existing email', async () => {
     const user = await factory.attrs<UserType>('User');
 
-    const usersRepository = getRepository(User);
+    const connection = await datasource.getConnection();
+    const usersRepository = connection.getRepository(User);
     await usersRepository.save(usersRepository.create(user));
 
     const response = await request(app)
