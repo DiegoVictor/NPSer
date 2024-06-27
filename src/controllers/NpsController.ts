@@ -9,13 +9,14 @@ class NpsController {
 
     const { detractors, promoters, passive } = answers.reduce(
       (prev, answer) => {
-        if (answer.value >= 0 && answer.value <= 6) {
-          prev.detractors++;
-        } else if (answer.value >= 9 && answer.value <= 10) {
+        if (answer.value >= 9) {
           prev.promoters++;
+        } else if (answer.value <= 6) {
+          prev.detractors++;
         } else {
           prev.passive++;
         }
+
         return prev;
       },
       { detractors: 0, promoters: 0, passive: 0 }
