@@ -1,10 +1,10 @@
 import { Router } from 'express';
 
-import SurveysController from './controllers/SurveysController';
-import UsersController from './controllers/UsersController';
-import SendMailController from './controllers/SendMailController';
-import AnswersController from './controllers/AnswersController';
-import NpsController from './controllers/NpsController';
+import { SurveysController } from './controllers/SurveysController';
+import { UsersController } from './controllers/UsersController';
+import { SendMailController } from './controllers/SendMailController';
+import { AnswersController } from './controllers/AnswersController';
+import { NpsController } from './controllers/NpsController';
 import userValidator from './validators/userValidator';
 import surveyValidator from './validators/surveyValidator';
 import sendEmailValidator from './validators/sendEmailValidator';
