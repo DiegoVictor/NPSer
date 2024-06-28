@@ -217,9 +217,9 @@ describe('Users', () => {
       .expect(204)
       .send();
 
-    const updatedSurveyUser = await surveysUsersRepository.findOne(
-      savedSurveyUser.id
-    );
+    const updatedSurveyUser = await surveysUsersRepository.findOne({
+      where: { id: savedSurveyUser.id },
+    });
 
     expect(updatedSurveyUser.value).toBe(value);
   });

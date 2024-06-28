@@ -107,8 +107,10 @@ describe('SendEmail', () => {
 
     const surveysUsersRepository = connection.getRepository(SurveyUser);
     const surveyUser = await surveysUsersRepository.findOne({
-      user_id: savedUser.id,
-      survey_id: savedSurvey.id,
+      where: {
+        user_id: savedUser.id,
+        survey_id: savedSurvey.id,
+      },
     });
 
     expect({ ...surveyUser }).toStrictEqual({
@@ -156,9 +158,11 @@ describe('SendEmail', () => {
       from: 'NPS <noreply@npser.com>',
     });
 
-    const updatedSurveyUser = await surveysUsersRepository.findOne(
-      savedSurveyUser.id
-    );
+    const updatedSurveyUser = await surveysUsersRepository.findOne({
+      where: {
+        id: savedSurveyUser.id,
+      },
+    });
 
     expect({ ...updatedSurveyUser }).toStrictEqual({
       id: savedSurveyUser.id,
@@ -183,8 +187,9 @@ describe('SendEmail', () => {
     const connection = await datasource.getConnection();
 
     const surveysUsersRepository = connection.getRepository(SurveyUser);
-    const surveysUsersRepository = getRepository(SurveyUser);
-    const surveyUser = await surveysUsersRepository.findOne({ survey_id });
+    const surveyUser = await surveysUsersRepository.findOne({
+      where: { survey_id },
+    });
 
     expect(surveyUser).toBeFalsy();
     expect(response.body).toStrictEqual({
@@ -215,8 +220,9 @@ describe('SendEmail', () => {
     expect(transporter.sendMail).not.toHaveBeenCalled();
 
     const surveysUsersRepository = connection.getRepository(SurveyUser);
-    const surveysUsersRepository = getRepository(SurveyUser);
-    const surveyUser = await surveysUsersRepository.findOne({ survey_id });
+    const surveyUser = await surveysUsersRepository.findOne({
+      where: { survey_id },
+    });
 
     expect(surveyUser).toBeFalsy();
     expect(response.body).toStrictEqual({
