@@ -4,7 +4,7 @@ import factory from '../utils/factory';
 import { SurveyUser } from '../../src/models/SurveyUser';
 import { User } from '../../src/models/User';
 import { Survey } from '../../src/models/Survey';
-import Survey from '../../src/models/Survey';
+import { JestDatasource } from '../utils/datasource';
 
 interface UserType {
   id: string;
@@ -29,37 +29,38 @@ interface SurveyUserType {
 }
 
 describe('Users', () => {
+  const datasource = new JestDatasource();
+
   beforeAll(async () => {
-    const connection = await createConnection();
+    const connection = await datasource.getConnection();
     await connection.runMigrations();
   });
 
   beforeEach(async () => {
-    const surveysUsersRepository = getRepository(SurveyUser);
-    await surveysUsersRepository.clear();
+    const connection = await datasource.getConnection();
 
-    const usersRepository = getRepository(User);
-    await usersRepository.clear();
-
-    const surveysRepository = getRepository(Survey);
-    await surveysRepository.clear();
+    for (const entity of [SurveyUser, User, Survey]) {
+      await connection.getRepository(entity).delete({});
+    }
   });
 
   afterAll(async () => {
-    const connection = await createConnection();
+    const connection = await datasource.getConnection();
+
     await connection.dropDatabase();
-    await connection.close();
+    await connection.destroy();
   });
 
   it('should be able to get survey NPS', async () => {
     const survey = await factory.attrs<SurveyType>('Survey');
 
-    const surveysRepository = getRepository(Survey);
+    const connection = await datasource.getConnection();
+    const surveysRepository = connection.getRepository(Survey);
     const savedSurvey = surveysRepository.create(survey);
     await surveysRepository.save(savedSurvey);
 
-    const usersRepository = getRepository(User);
-    const surveysUsersRepository = getRepository(SurveyUser);
+    const usersRepository = connection.getRepository(User);
+    const surveysUsersRepository = connection.getRepository(SurveyUser);
 
     const users = await factory.attrsMany<UserType>('User', 10);
     const promises: Promise<SurveyUserType>[] = users.map((user, index) => {

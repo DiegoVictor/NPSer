@@ -5,7 +5,7 @@ import factory from '../utils/factory';
 import { Survey } from '../../src/models/Survey';
 import { SurveyUser } from '../../src/models/SurveyUser';
 import { User } from '../../src/models/User';
-import User from '../../src/models/User';
+import { JestDatasource } from '../utils/datasource';
 
 interface UserType {
   id: string;
@@ -30,32 +30,34 @@ interface SurveyUserType {
 }
 
 describe('Users', () => {
+  const datasource = new JestDatasource();
+
   beforeAll(async () => {
-    const connection = await createConnection();
+    const connection = await datasource.getConnection();
     await connection.runMigrations();
   });
 
   beforeEach(async () => {
-    const surveysUsersRepository = getRepository(SurveyUser);
-    await surveysUsersRepository.clear();
+    const connection = await datasource.getConnection();
 
-    const usersRepository = getRepository(User);
-    await usersRepository.clear();
-
-    const surveysRepository = getRepository(Survey);
-    await surveysRepository.clear();
+    for (const entity of [SurveyUser, User, Survey]) {
+      await connection.getRepository(entity).delete({});
+    }
   });
 
   afterAll(async () => {
-    const connection = await createConnection();
+    const connection = await datasource.getConnection();
+
     await connection.dropDatabase();
-    await connection.close();
+    await connection.destroy();
   });
 
   it('should be able to get answers list', async () => {
-    const usersRepository = getRepository(User);
-    const surveysUsersRepository = getRepository(SurveyUser);
-    const surveysRepository = getRepository(Survey);
+    const connection = await datasource.getConnection();
+
+    const usersRepository = connection.getRepository(User);
+    const surveysUsersRepository = connection.getRepository(SurveyUser);
+    const surveysRepository = connection.getRepository(Survey);
 
     const users = await factory.attrsMany<UserType>('User', 3);
     const promises: Promise<{
@@ -114,9 +116,11 @@ describe('Users', () => {
   });
 
   it('should be able to get the second page of answers', async () => {
-    const usersRepository = getRepository(User);
-    const surveysUsersRepository = getRepository(SurveyUser);
-    const surveysRepository = getRepository(Survey);
+    const connection = await datasource.getConnection();
+
+    const usersRepository = connection.getRepository(User);
+    const surveysUsersRepository = connection.getRepository(SurveyUser);
+    const surveysRepository = connection.getRepository(Survey);
 
     const users = await factory.attrsMany<UserType>('User', 20);
     const promises: Promise<{
@@ -188,11 +192,13 @@ describe('Users', () => {
     const user = await factory.attrs<UserType>('User');
     const survey = await factory.attrs<SurveyType>('Survey');
 
-    const usersRepository = getRepository(User);
+    const connection = await datasource.getConnection();
+
+    const usersRepository = connection.getRepository(User);
     const savedUser = usersRepository.create(user);
     await usersRepository.save(savedUser);
 
-    const surveysRepository = getRepository(Survey);
+    const surveysRepository = connection.getRepository(Survey);
     const savedSurvey = surveysRepository.create(survey);
     await surveysRepository.save(savedSurvey);
 
@@ -201,7 +207,7 @@ describe('Users', () => {
       survey_id: savedSurvey.id,
       value: null,
     });
-    const surveysUsersRepository = getRepository(SurveyUser);
+    const surveysUsersRepository = connection.getRepository(SurveyUser);
     const savedSurveyUser = surveysUsersRepository.create(surveyUser);
     await surveysUsersRepository.save(savedSurveyUser);
 

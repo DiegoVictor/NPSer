@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from '../../src/app';
 import factory from '../utils/factory';
 import { Survey } from '../../src/models/Survey';
-import Survey from '../../src/models/Survey';
+import { JestDatasource } from '../utils/datasource';
 
 interface SurveyType {
   id?: string;
@@ -12,26 +12,32 @@ interface SurveyType {
 }
 
 describe('Surveys', () => {
+  const datasource = new JestDatasource();
+
   beforeAll(async () => {
-    const connection = await createConnection();
+    const connection = await datasource.getConnection();
     await connection.runMigrations();
   });
 
   beforeEach(async () => {
-    const surveysRepository = getRepository(Survey);
-    await surveysRepository.clear();
+    const connection = await datasource.getConnection();
+
+    const surveysRepository = connection.getRepository(Survey);
+    await surveysRepository.delete({});
   });
 
   afterAll(async () => {
-    const connection = await createConnection();
+    const connection = await datasource.getConnection();
+
     await connection.dropDatabase();
-    await connection.close();
+    await connection.destroy();
   });
 
   it('should be able to get surveys', async () => {
     const surveys = await factory.attrsMany<SurveyType>('Survey', 3);
 
-    const surveysRepository = getRepository(Survey);
+    const connection = await datasource.getConnection();
+    const surveysRepository = connection.getRepository(Survey);
 
     const createdSurveys = surveysRepository.create(surveys);
     await surveysRepository.save(createdSurveys);
@@ -52,7 +58,8 @@ describe('Surveys', () => {
   it('should be able the second page of surveys', async () => {
     const surveys = await factory.attrsMany<SurveyType>('Survey', 20);
 
-    const surveysRepository = getRepository(Survey);
+    const connection = await datasource.getConnection();
+    const surveysRepository = connection.getRepository(Survey);
 
     const createdSurveys = surveysRepository.create(surveys);
     await surveysRepository.save(createdSurveys);

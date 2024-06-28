@@ -5,7 +5,7 @@ import factory from '../utils/factory';
 import { User } from '../../src/models/User';
 import { Survey } from '../../src/models/Survey';
 import { SurveyUser } from '../../src/models/SurveyUser';
-import SurveyUser from '../../src/models/SurveyUser';
+import { JestDatasource } from '../utils/datasource';
 
 interface UserType {
   email: string;
@@ -55,24 +55,24 @@ jest.mock('nodemailer', () => {
 });
 
 describe('SendEmail', () => {
+  const datasource = new JestDatasource();
+
   beforeAll(async () => {
-    const connection = await createConnection();
+    const connection = await datasource.getConnection();
     await connection.runMigrations();
   });
 
   beforeEach(async () => {
-    const surveysUsersRepository = getRepository(SurveyUser);
-    await surveysUsersRepository.clear();
+    const connection = await datasource.getConnection();
 
-    const usersRepository = getRepository(User);
-    await usersRepository.clear();
-
-    const surveysRepository = getRepository(Survey);
-    await surveysRepository.clear();
+    for (const entity of [SurveyUser, User, Survey]) {
+      await connection.getRepository(entity).delete({});
+    }
   });
 
   afterAll(async () => {
-    const connection = await createConnection();
+    const connection = await datasource.getConnection();
+
     await connection.dropDatabase();
     await connection.close();
   });
@@ -81,11 +81,13 @@ describe('SendEmail', () => {
     const user = await factory.attrs<UserType>('User');
     const survey = await factory.attrs<SurveyType>('Survey');
 
-    const usersRepository = getRepository(User);
+    const connection = await datasource.getConnection();
+
+    const usersRepository = connection.getRepository(User);
     const savedUser = usersRepository.create(user);
     await usersRepository.save(savedUser);
 
-    const surveysRepository = getRepository(Survey);
+    const surveysRepository = connection.getRepository(Survey);
     const savedSurvey = surveysRepository.create(survey);
     await surveysRepository.save(savedSurvey);
 
@@ -103,7 +105,7 @@ describe('SendEmail', () => {
       from: 'NPS <noreply@npser.com>',
     });
 
-    const surveysUsersRepository = getRepository(SurveyUser);
+    const surveysUsersRepository = connection.getRepository(SurveyUser);
     const surveyUser = await surveysUsersRepository.findOne({
       user_id: savedUser.id,
       survey_id: savedSurvey.id,
@@ -123,11 +125,13 @@ describe('SendEmail', () => {
     const user = await factory.attrs<UserType>('User');
     const survey = await factory.attrs<SurveyType>('Survey');
 
-    const usersRepository = getRepository(User);
+    const connection = await datasource.getConnection();
+
+    const usersRepository = connection.getRepository(User);
     const savedUser = usersRepository.create(user);
     await usersRepository.save(savedUser);
 
-    const surveysRepository = getRepository(Survey);
+    const surveysRepository = connection.getRepository(Survey);
     const savedSurvey = surveysRepository.create(survey);
     await surveysRepository.save(savedSurvey);
 
@@ -136,7 +140,7 @@ describe('SendEmail', () => {
       survey_id: savedSurvey.id,
       value: null,
     });
-    const surveysUsersRepository = getRepository(SurveyUser);
+    const surveysUsersRepository = connection.getRepository(SurveyUser);
     const savedSurveyUser = surveysUsersRepository.create(surveyUser);
     await surveysUsersRepository.save(savedSurveyUser);
 
@@ -176,6 +180,9 @@ describe('SendEmail', () => {
 
     expect(transporter.sendMail).not.toHaveBeenCalled();
 
+    const connection = await datasource.getConnection();
+
+    const surveysUsersRepository = connection.getRepository(SurveyUser);
     const surveysUsersRepository = getRepository(SurveyUser);
     const surveyUser = await surveysUsersRepository.findOne({ survey_id });
 
@@ -192,7 +199,9 @@ describe('SendEmail', () => {
   it('should not be able to send to user a survey that not exists', async () => {
     const user = await factory.attrs<UserType>('User');
 
-    const usersRepository = getRepository(User);
+    const connection = await datasource.getConnection();
+
+    const usersRepository = connection.getRepository(User);
     const savedUser = usersRepository.create(user);
     await usersRepository.save(savedUser);
 
@@ -205,6 +214,7 @@ describe('SendEmail', () => {
 
     expect(transporter.sendMail).not.toHaveBeenCalled();
 
+    const surveysUsersRepository = connection.getRepository(SurveyUser);
     const surveysUsersRepository = getRepository(SurveyUser);
     const surveyUser = await surveysUsersRepository.findOne({ survey_id });
 
