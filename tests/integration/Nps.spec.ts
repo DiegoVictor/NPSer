@@ -1,11 +1,9 @@
 import request from 'supertest';
-import { getRepository } from 'typeorm';
-
 import app from '../../src/app';
 import factory from '../utils/factory';
-import createConnection from '../../src/database/index';
-import SurveyUser from '../../src/models/SurveyUser';
-import User from '../../src/models/User';
+import { SurveyUser } from '../../src/models/SurveyUser';
+import { User } from '../../src/models/User';
+import { Survey } from '../../src/models/Survey';
 import Survey from '../../src/models/Survey';
 
 interface UserType {

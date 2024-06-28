@@ -1,12 +1,10 @@
 import request from 'supertest';
 import { faker } from '@faker-js/faker';
-import { getRepository } from 'typeorm';
-
 import app from '../../src/app';
 import factory from '../utils/factory';
-import createConnection from '../../src/database/index';
-import Survey from '../../src/models/Survey';
-import SurveyUser from '../../src/models/SurveyUser';
+import { Survey } from '../../src/models/Survey';
+import { SurveyUser } from '../../src/models/SurveyUser';
+import { User } from '../../src/models/User';
 import User from '../../src/models/User';
 
 interface UserType {
