@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "f94c4faa-4710-45d2-bda5-f63977196011",
+		"name": "NPSer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19527899"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"email\": \"johndoe@example.com.br\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Surveys",
+			"item": [
+				{
+					"name": "Email",
+					"item": [
+						{
+							"name": "Send",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"if (response?.id) {\r",
+											"    const { id } = response;\r",
+											"    pm.collectionVariables.set('answer_id', id)\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"email\": \"johndoe@example.com.br\",\r\n\t\"survey_id\": \"{{survey_id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/send_mail",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"send_mail"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/surveys",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"surveys"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"if (response?.id) {\r",
+									"    const { id } = response;\r",
+									"    pm.collectionVariables.set('survey_id', id)\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Internal Division Consultant\",\r\n    \"description\": \"Saepe recusandae vitae velit asperiores vel consequuntur ratione quam.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/surveys",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"surveys"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Answer",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/answers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"answers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/answers/1?id={{answer_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"answers",
+								"1"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{answer_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NPS",
+			"item": [
+				{
+					"name": "Show",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/nps/{{survey_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"nps",
+								"{{survey_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3333/v1",
+			"type": "string"
+		},
+		{
+			"key": "survey_id",
+			"value": "477dd600-299d-427f-9c13-612a075331ae"
+		},
+		{
+			"key": "answer_id",
+			"value": ""
+		}
+	]
+}
