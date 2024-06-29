@@ -9,7 +9,7 @@ import { isBoom } from '@hapi/boom';
 import { errors } from 'celebrate';
 
 import './database/datasource';
-import routes from './routes';
+import { app as routes } from './routes';
 import RouteAliases from './middlewares/RouteAliases';
 
 const app = express();
