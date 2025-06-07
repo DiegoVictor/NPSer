@@ -13,9 +13,9 @@
 ## Table of Contents
 * [Installing](#installing)
   * [Configuring](#configuring)
+    * [.env](#env)
     * [SQLite](#sqlite)
       * [Migrations](#migrations)
-    * [.env](#env)
 * [Usage](#usage)
   * [Error Handling](#error-handling)
     * [Errors Reference](#errors-reference)
@@ -42,6 +42,15 @@ The application use just one database: [SQLite](https://www.sqlite.org/index.htm
 $ docker-compose up -d
 ```
 
+### .env
+In this file you may configure app's port and a url to documentation (this will be returned with error responses, see [error section](#error-handling)). Rename the `.env.example` in the root directory to `.env` then just update with your settings.
+
+|key|description|default
+|---|---|---
+|URL_MAIL|Url to send the NPS answer|`http://localhost:3333/answers`
+|PORT|Port number where the app will run.|`3333`
+|DOCS_URL|An url to docs where users can find more information about the app's internal code errors.|`https://github.com/DiegoVictor/npser#errors-reference`
+
 ### SQLite
 Store all users and surveys. For more information to how to setup your database see:
 * [typeorm](https://typeorm.io/#/using-ormconfig)
@@ -57,15 +66,6 @@ Or:
 $ yarn typeorm migration:run -- -d ./src/database/datasource.ts
 ```
 > See more information on [TypeORM Migrations](https://typeorm.io/#/migrations).
-
-### .env
-In this file you may configure app's port and a url to documentation (this will be returned with error responses, see [error section](#error-handling)). Rename the `.env.example` in the root directory to `.env` then just update with your settings.
-
-|key|description|default
-|---|---|---
-|URL_MAIL|Url to send the NPS answer|`http://localhost:3333/answers`
-|PORT|Port number where the app will run.|`3333`
-|DOCS_URL|An url to docs where users can find more information about the app's internal code errors.|`https://github.com/DiegoVictor/npser#errors-reference`
 
 # Usage
 To start up the app run:
