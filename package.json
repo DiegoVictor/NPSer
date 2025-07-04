@@ -12,14 +12,13 @@
     "@hapi/boom": "^10.0.1",
     "celebrate": "^15.0.1",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
+    "express": "^5.1.0",
     "handlebars": "^4.7.7",
-    "helmet": "^7.0.0",
-    "nodemailer": "^6.4.18",
+    "helmet": "^8.1.0",
+    "nodemailer": "^7.0.4",
     "reflect-metadata": "^0.2.2",
     "sqlite3": "^5.0.2",
-    "typeorm": "^0.3.20"
+    "typeorm": "^0.3.25"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.9.0",
