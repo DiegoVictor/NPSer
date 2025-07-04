@@ -1,5 +1,5 @@
 version: 1.0.{build}
-image: Ubuntu
+image: Ubuntu2204
 environment:
   PORT: 3333
   DOCS_URL: https://github.com/DiegoVictor/npser#errors-reference
