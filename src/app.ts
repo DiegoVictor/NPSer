@@ -21,20 +21,19 @@ app.use(RouteAliases);
 app.use('/v1', routes);
 
 app.use(errors());
-app.use(
-  async (err: Error, request: Request, res: Response, next: NextFunction) => {
-    if (isBoom(err)) {
-      const { statusCode, payload } = err.output;
+app.use((err: Error, _: Request, res: Response, next: NextFunction) => {
+  if (isBoom(err)) {
+    const { statusCode, payload } = err.output;
 
-      return res.status(statusCode).json({
-        ...payload,
-        ...err.data,
-        docs: process.env.DOCS_URL,
-      });
-    }
-
-    return next(err);
+    res.status(statusCode).json({
+      ...payload,
+      ...err.data,
+      docs: process.env.DOCS_URL,
+    });
+    return;
   }
-);
+
+  next(err);
+});
 
 export default app;
