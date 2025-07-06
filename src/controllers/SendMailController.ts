@@ -7,7 +7,7 @@ import { UsersRepository } from '../repositories/UsersRepository';
 import SendMailService from '../services/SendMailService';
 
 class SendMailController {
-  async store(request: Request, response: Response): Promise<Response> {
+  async store(request: Request, response: Response): Promise<void> {
     const { email, survey_id } = request.body;
 
     const user = await UsersRepository.findOne({
@@ -46,7 +46,7 @@ class SendMailController {
       variables.id = surveyUserAlreadyExists.id;
       await sendMail.execute(email, survey.title, variables, npsPath);
 
-      return response.status(201).json({
+      response.status(201).json({
         id: surveyUserAlreadyExists.id,
       });
     }
@@ -61,7 +61,7 @@ class SendMailController {
 
     await sendMail.execute(email, survey.title, variables, npsPath);
 
-    return response.status(201).json({
+    response.status(201).json({
       id: surveyUser.id,
     });
   }

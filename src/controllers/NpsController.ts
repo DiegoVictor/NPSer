@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { SurveysUsersRepository } from '../repositories/SurveysUsersRepository';
 
 class NpsController {
-  async show(request: Request, response: Response) {
+  async show(request: Request, response: Response): Promise<void> {
     const { survey_id } = request.params;
 
     const answers = await SurveysUsersRepository.getAnswers(survey_id);
@@ -26,13 +26,14 @@ class NpsController {
       (((promoters - detractors) / answers.length) * 100).toFixed(2)
     );
 
-    return response.json({
+    response.json({
       promoters,
       detractors,
       passive,
       total: answers.length,
       nps,
     });
+    return;
   }
 }
 

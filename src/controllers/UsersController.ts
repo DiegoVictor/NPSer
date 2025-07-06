@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { UsersRepository } from '../repositories/UsersRepository';
 
 class UsersController {
-  async store(request: Request, response: Response): Promise<Response> {
+  async store(request: Request, response: Response): Promise<void> {
     const { name, email } = request.body;
 
     const userAlreadyExists = await UsersRepository.findOne({
@@ -18,7 +18,7 @@ class UsersController {
     const user = UsersRepository.create({ name, email });
     await UsersRepository.save(user);
 
-    return response.status(201).json(user);
+    response.status(201).json(user);
   }
 }
 

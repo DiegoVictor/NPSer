@@ -4,7 +4,7 @@ import paginationLinks from '../helpers/paginationLinks';
 import { SurveysUsersRepository } from '../repositories/SurveysUsersRepository';
 
 class AnswersController {
-  async index(request: Request, response: Response): Promise<Response> {
+  async index(request: Request, response: Response): Promise<void> {
     const { currentUrl } = request;
     const { page = 1 } = request.query;
     const limit = 10;
@@ -24,10 +24,10 @@ class AnswersController {
       response.links(paginationLinks(Number(page), pages_total, currentUrl));
     }
 
-    return response.json(surveysUsers);
+    response.json(surveysUsers);
   }
 
-  async store(request: Request, response: Response): Promise<Response> {
+  async store(request: Request, response: Response): Promise<void> {
     const { value } = request.params;
     const { id } = request.query;
 
@@ -41,7 +41,7 @@ class AnswersController {
     surveyUser.value = Number(value);
     await SurveysUsersRepository.save(surveyUser);
 
-    return response.sendStatus(204);
+    response.sendStatus(204);
   }
 }
 
