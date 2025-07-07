@@ -3,6 +3,7 @@ import app from '../../src/app';
 import factory from '../utils/factory';
 import { Survey } from '../../src/models/Survey';
 import { JestDatasource } from '../utils/datasource';
+import { IsNull, Not } from 'typeorm';
 
 interface SurveyType {
   id?: string;
@@ -23,7 +24,9 @@ describe('Surveys', () => {
     const connection = await datasource.getConnection();
 
     const surveysRepository = connection.getRepository(Survey);
-    await surveysRepository.delete({});
+    await surveysRepository.delete({
+      id: Not(IsNull()),
+    });
   });
 
   afterAll(async () => {

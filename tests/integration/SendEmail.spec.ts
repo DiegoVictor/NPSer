@@ -6,6 +6,7 @@ import { User } from '../../src/models/User';
 import { Survey } from '../../src/models/Survey';
 import { SurveyUser } from '../../src/models/SurveyUser';
 import { JestDatasource } from '../utils/datasource';
+import { IsNull, Not } from 'typeorm';
 
 interface UserType {
   email: string;
@@ -66,7 +67,9 @@ describe('SendEmail', () => {
     const connection = await datasource.getConnection();
 
     for (const entity of [SurveyUser, User, Survey]) {
-      await connection.getRepository(entity).delete({});
+      await connection.getRepository(entity).delete({
+        id: Not(IsNull()),
+      });
     }
   });
 

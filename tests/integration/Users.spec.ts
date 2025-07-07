@@ -3,6 +3,7 @@ import app from '../../src/app';
 import factory from '../utils/factory';
 import { User } from '../../src/models/User';
 import { JestDatasource } from '../utils/datasource';
+import { IsNull, Not } from 'typeorm';
 
 interface UserType {
   id?: string;
@@ -23,7 +24,9 @@ describe('Users', () => {
     const connection = await datasource.getConnection();
 
     const usersRepository = connection.getRepository(User);
-    await usersRepository.delete({});
+    await usersRepository.delete({
+      id: Not(IsNull()),
+    });
   });
 
   afterAll(async () => {
