@@ -25,30 +25,26 @@ interface SurveyUserType {
   value: number;
 }
 
-const transporter = {
-  sendMail: jest.fn(() => ({
-    messageId: faker.string.uuid(),
-  })),
+const mockTransporter = {
+  sendMail: jest.fn(),
 };
 jest.mock('nodemailer', () => {
   return {
     __esModule: true,
     default: {
-      createTestAccount: () => {
-        return new Promise((resolve) => {
-          resolve({
-            smtp: {
-              host: '',
-              port: '',
-              secure: '',
-            },
-            user: '',
-            pass: '',
-          });
-        });
+      createTestAccount: async () => {
+        return {
+          smtp: {
+            host: '',
+            port: '',
+            secure: '',
+          },
+          user: '',
+          pass: '',
+        };
       },
       createTransport: () => {
-        return transporter;
+        return mockTransporter;
       },
       getTestMessageUrl: () => '',
     },
@@ -77,7 +73,7 @@ describe('SendEmail', () => {
     const connection = await datasource.getConnection();
 
     await connection.dropDatabase();
-    await connection.close();
+    await connection.destroy();
   });
 
   it('should be able to send to user a survey', async () => {
@@ -94,14 +90,21 @@ describe('SendEmail', () => {
     const savedSurvey = surveysRepository.create(survey);
     await surveysRepository.save(savedSurvey);
 
-    jest.spyOn(console, 'log').mockImplementation(() => {});
+    jest
+      .spyOn(console, 'log')
+      .mockImplementationOnce(() => {})
+      .mockImplementationOnce(() => {});
+
+    mockTransporter.sendMail.mockResolvedValueOnce({
+      messageId: faker.string.uuid(),
+    });
 
     await request(app).post('/v1/send_mail').expect(201).send({
       email: savedUser.email,
       survey_id: savedSurvey.id,
     });
 
-    expect(transporter.sendMail).toHaveBeenCalledWith({
+    expect(mockTransporter.sendMail).toHaveBeenCalledWith({
       to: savedUser.email,
       subject: survey.title,
       html: expect.any(String),
@@ -149,12 +152,21 @@ describe('SendEmail', () => {
     const savedSurveyUser = surveysUsersRepository.create(surveyUser);
     await surveysUsersRepository.save(savedSurveyUser);
 
+    jest
+      .spyOn(console, 'log')
+      .mockImplementationOnce(() => {})
+      .mockImplementationOnce(() => {});
+
+    mockTransporter.sendMail.mockResolvedValueOnce({
+      messageId: faker.string.uuid(),
+    });
+
     await request(app).post('/v1/send_mail').expect(201).send({
       email: savedUser.email,
       survey_id: savedSurvey.id,
     });
 
-    expect(transporter.sendMail).toHaveBeenCalledWith({
+    expect(mockTransporter.sendMail).toHaveBeenCalledWith({
       to: savedUser.email,
       subject: survey.title,
       html: expect.any(String),
@@ -176,7 +188,7 @@ describe('SendEmail', () => {
     });
   });
 
-  it('should not be able to send to user that not exists a survey', async () => {
+  it('should not be able to send a survey to an user that not exists', async () => {
     const email = faker.internet.email();
     const survey_id = faker.string.uuid();
 
@@ -185,7 +197,8 @@ describe('SendEmail', () => {
       survey_id,
     });
 
-    expect(transporter.sendMail).not.toHaveBeenCalled();
+    mockTransporter.sendMail.mockReset();
+    expect(mockTransporter.sendMail).not.toHaveBeenCalled();
 
     const connection = await datasource.getConnection();
 
@@ -220,7 +233,7 @@ describe('SendEmail', () => {
       survey_id,
     });
 
-    expect(transporter.sendMail).not.toHaveBeenCalled();
+    expect(mockTransporter.sendMail).not.toHaveBeenCalled();
 
     const surveysUsersRepository = connection.getRepository(SurveyUser);
     const surveyUser = await surveysUsersRepository.findOne({
