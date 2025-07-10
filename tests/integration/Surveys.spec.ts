@@ -93,6 +93,8 @@ describe('Surveys', () => {
   it('should be able to create a new survey', async () => {
     const survey = await factory.attrs<SurveyType>('Survey');
 
+    delete survey.id;
+
     const response = await request(app)
       .post('/v1/surveys')
       .expect(201)

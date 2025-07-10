@@ -39,6 +39,8 @@ describe('Users', () => {
   it('should be able to create a new user', async () => {
     const user = await factory.attrs<UserType>('User');
 
+    delete user.id;
+
     const response = await request(app)
       .post('/v1/users')
       .expect(201)
@@ -59,6 +61,8 @@ describe('Users', () => {
     const connection = await datasource.getConnection();
     const usersRepository = connection.getRepository(User);
     await usersRepository.save(usersRepository.create(user));
+
+    delete user.id;
 
     const response = await request(app)
       .post('/v1/users')
