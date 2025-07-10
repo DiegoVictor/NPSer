@@ -1,6 +1,7 @@
 import { badRequest } from '@hapi/boom';
 import { Request, Response } from 'express';
 import path from 'path';
+import { v4 as uuid } from 'uuid';
 import { SurveysRepository } from '../repositories/SurveysRepository';
 import { SurveysUsersRepository } from '../repositories/SurveysUsersRepository';
 import { UsersRepository } from '../repositories/UsersRepository';
@@ -52,6 +53,7 @@ class SendMailController {
     }
 
     const surveyUser = SurveysUsersRepository.create({
+      id: uuid(),
       user_id: user.id,
       survey_id,
     });

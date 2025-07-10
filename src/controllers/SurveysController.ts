@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { v4 as uuid } from 'uuid';
 import paginationLinks from '../helpers/paginationLinks';
 import { SurveysRepository } from '../repositories/SurveysRepository';
 
@@ -28,7 +29,7 @@ class SurveysController {
   async store(request: Request, response: Response): Promise<void> {
     const { title, description } = request.body;
 
-    const survey = SurveysRepository.create({ title, description });
+    const survey = SurveysRepository.create({ id: uuid(), title, description });
     await SurveysRepository.save(survey);
 
     response.status(201).json(survey);
