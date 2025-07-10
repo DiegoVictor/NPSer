@@ -6,7 +6,6 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
-import { v4 as uuid } from 'uuid';
 
 import { Survey } from './Survey';
 import { User } from './User';
@@ -14,7 +13,7 @@ import { User } from './User';
 @Entity('surveys_users')
 export class SurveyUser {
   @PrimaryColumn()
-  readonly id: string;
+  id: string;
 
   @Column()
   user_id: string;
@@ -35,10 +34,4 @@ export class SurveyUser {
 
   @CreateDateColumn()
   created_at: Date;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-  }
 }
